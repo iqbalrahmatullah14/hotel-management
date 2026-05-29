@@ -54,106 +54,50 @@
                           {{ $room->roomTypeConfig['name'] }}
                           Rp {{ number_format($room->roomTypeConfig['price_per_night'], 0, ',', '.') }}
                     --}}
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-semibold text-gray-800">101</td>
-                        <td class="px-6 py-3">Standard</td>
-                        <td class="px-6 py-3">1</td>
-                        <td class="px-6 py-3">Rp 350.000</td>
-                        <td class="px-6 py-3">2 orang</td>
-                        <td class="px-6 py-3">
-                            <span
-                                class="px-2 py-1 text-xs font-medium rounded-full bg-emerald-100 text-emerald-700">Available</span>
-                        </td>
-                        <td class="px-6 py-3">
-                            <div class="flex gap-2">
-                                {{-- TODO Tugas B: Ganti route('rooms.edit', 1) → route('rooms.edit', $room) --}}
-                                <a href="{{ route('rooms.edit', 1) }}" class="text-amber-600 hover:text-amber-800 p-1"
-                                    title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                </a>
-                                {{-- TODO Tugas B: Implementasi delete via form @method('DELETE') --}}
-                                <button onclick="openDeleteModal('delete-room-1')"
-                                    class="text-red-600 hover:text-red-800 p-1 cursor-pointer" title="Hapus">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                                <form id="delete-room-1-form" action="{{ route('rooms.destroy', 1) }}" method="POST"
-                                    class="hidden">
-                                    @csrf @method('DELETE')
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-semibold text-gray-800">201</td>
-                        <td class="px-6 py-3">Deluxe</td>
-                        <td class="px-6 py-3">2</td>
-                        <td class="px-6 py-3">Rp 550.000</td>
-                        <td class="px-6 py-3">2 orang</td>
-                        <td class="px-6 py-3">
-                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-700">Occupied</span>
-                        </td>
-                        <td class="px-6 py-3">
-                            <div class="flex gap-2">
-                                <a href="{{ route('rooms.edit', 4) }}" class="text-amber-600 hover:text-amber-800 p-1"
-                                    title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                </a>
-                                <button onclick="openDeleteModal('delete-room-4')"
-                                    class="text-red-600 hover:text-red-800 p-1 cursor-pointer" title="Hapus">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                                <form id="delete-room-4-form" action="{{ route('rooms.destroy', 4) }}" method="POST"
-                                    class="hidden">
-                                    @csrf @method('DELETE')
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-semibold text-gray-800">301</td>
-                        <td class="px-6 py-3">Suite</td>
-                        <td class="px-6 py-3">3</td>
-                        <td class="px-6 py-3">Rp 900.000</td>
-                        <td class="px-6 py-3">4 orang</td>
-                        <td class="px-6 py-3">
-                            <span
-                                class="px-2 py-1 text-xs font-medium rounded-full bg-emerald-100 text-emerald-700">Available</span>
-                        </td>
-                        <td class="px-6 py-3">
-                            <div class="flex gap-2">
-                                <a href="{{ route('rooms.edit', 7) }}" class="text-amber-600 hover:text-amber-800 p-1"
-                                    title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                </a>
-                                <button onclick="openDeleteModal('delete-room-7')"
-                                    class="text-red-600 hover:text-red-800 p-1 cursor-pointer" title="Hapus">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                                <form id="delete-room-7-form" action="{{ route('rooms.destroy', 7) }}" method="POST"
-                                    class="hidden">
-                                    @csrf @method('DELETE')
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
+                    @foreach ($rooms as $room)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-3 font-semibold text-gray-800">{{ $room->room_number }}</td>
+                            <td class="px-6 py-3">{{ $room->roomTypeConfig['name'] }}</td>
+                            <td class="px-6 py-3">{{ $room->floor }}</td>
+                            <td class="px-6 py-3">Rp
+                                {{ number_format($room->roomTypeConfig['price_per_night'], 0, ',', '.') }}</td>
+                            <td class="px-6 py-3">{{ $room->roomTypeConfig['capacity'] }} orang</td>
+                            <td class="px-6 py-3">
+                                <span
+                                    class="px-2 py-1 text-xs font-medium rounded-full 
+                                    @if($room->status == 'available') bg-emerald-100 text-emerald-700 
+                                    @elseif($room->status == 'occupied') bg-rose-100 text-rose-700 
+                                    @else bg-amber-100 text-amber-700 
+                                    @endif">
+                                    {{ ucfirst($room->status) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-3">
+                                <div class="flex gap-2">
+                                    {{-- TODO Tugas B: Ganti route('rooms.edit', 1) → route('rooms.edit', $room) --}}
+                                    <a href="{{ route('rooms.edit', $room) }}"
+                                        class="text-amber-600 hover:text-amber-800 p-1" title="Edit">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </a>
+                                    {{-- TODO Tugas B: Implementasi delete via form @method('DELETE') --}}
+                                    <button onclick="openDeleteModal('delete-room-{{ $room->id }}')"
+                                        class="text-red-600 hover:text-red-800 p-1 cursor-pointer" title="Hapus">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                    <form id="delete-room-{{ $room->id }}-form"
+                                        action="{{ route('rooms.destroy', $room) }}" method="POST" class="hidden">
+                                        @csrf @method('DELETE')
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

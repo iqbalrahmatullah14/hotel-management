@@ -54,7 +54,7 @@
                           {{ $room->roomTypeConfig['name'] }}
                           Rp {{ number_format($room->roomTypeConfig['price_per_night'], 0, ',', '.') }}
                     --}}
-                    @foreach ($rooms as $room)
+                    @forelse ($rooms as $room)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-3 font-semibold text-gray-800">{{ $room->room_number }}</td>
                             <td class="px-6 py-3">{{ $room->roomTypeConfig['name'] }}</td>
@@ -64,10 +64,10 @@
                             <td class="px-6 py-3">{{ $room->roomTypeConfig['capacity'] }} orang</td>
                             <td class="px-6 py-3">
                                 <span
-                                    class="px-2 py-1 text-xs font-medium rounded-full 
-                                    @if($room->status == 'available') bg-emerald-100 text-emerald-700 
-                                    @elseif($room->status == 'occupied') bg-rose-100 text-rose-700 
-                                    @else bg-amber-100 text-amber-700 
+                                    class="px-2 py-1 text-xs font-medium rounded-full
+                                    @if($room->status == 'available') bg-emerald-100 text-emerald-700
+                                    @elseif($room->status == 'occupied') bg-rose-100 text-rose-700
+                                    @else bg-amber-100 text-amber-700
                                     @endif">
                                     {{ ucfirst($room->status) }}
                                 </span>
@@ -97,7 +97,11 @@
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="8" class="px-6 py-4 text-center text-gray-500">Belum ada data kamar.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

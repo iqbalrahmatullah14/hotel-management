@@ -13,7 +13,8 @@ class PricingService
         $config = HotelConfigManager::getInstance();
 
         $nights = Carbon::parse($checkIn)->diffInDays(Carbon::parse($checkOut));
-        $subtotal = $room->roomType->price_per_night * $nights;
+        $roomType = $room->room_type_config;
+        $subtotal = $roomType['price_per_night'] * $nights;
         $tax = $config->calculateTax($subtotal);
 
         return [

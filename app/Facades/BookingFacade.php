@@ -8,6 +8,7 @@ use App\Services\GuestService;
 use App\Services\PricingService;
 use App\Services\PaymentService;
 use App\Services\HotelConfigManager;
+use Illuminate\Support\Facades\DB;
 
 class BookingFacade
 {
@@ -30,34 +31,31 @@ class BookingFacade
 
     public function createBooking(array $data): array
     {
-        // Validasi tamu
-        $guest = $this->guestService->findOrFail($data['guest_id']);
+        return DB::transaction(function () use ($data) {
+            $guest = $this->guestService->findOrFail($data['guest_id']);
 
-        // Cek ketersediaan kamar
-        $room = $this->roomService->findAvailable($data['room_id']);
-        if (!$room) {
-            return ['success' => false, 'message' => 'Kamar tidak tersedia'];
-        }
+            $room = $this->roomService->findAvailable($data['room_id']);
+            if (!$room) {
+                return ['success' => false, 'message' => 'Kamar tidak tersedia'];
+            }
 
-        // Hitung harga + pajak
-        $pricing = $this->pricingService->calculate(
-            $room,
-            $data['check_in_date'],
-            $data['check_out_date']
-        );
+            $pricing = $this->pricingService->calculate(
+                $room,
+                $data['check_in_date'],
+                $data['check_out_date']
+            );
 
-        // Buat booking + payment record
-        $booking = $this->paymentService->createBookingWithPayment(
-            $guest,
-            $room,
-            $data,
-            $pricing
-        );
+            $booking = $this->paymentService->createBookingWithPayment(
+                $guest,
+                $room,
+                $data,
+                $pricing
+            );
 
-        // Update status kamar
-        $this->roomService->updateStatus($room, 'occupied');
+            $this->roomService->updateStatus($room, 'occupied');
 
-        return ['success' => true, 'booking' => $booking];
+            return ['success' => true, 'booking' => $booking];
+        });
     }
 
     public function cancelBooking(int $bookingId): array

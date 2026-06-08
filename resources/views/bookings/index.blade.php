@@ -72,7 +72,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="px-6 py-8 text-center text-gray-500">Belum ada data booking.</td>
+                            <td colspan="9" class="px-6 py-4 text-center text-gray-500">Belum ada data booking.</td>
                         </tr>
                     @endforelse
                 </tbody>

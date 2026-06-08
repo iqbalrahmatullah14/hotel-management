@@ -10,7 +10,7 @@
     </h1>
 </div>
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-2xl">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-2xl">
 
     <form action="{{ isset($guest)
         ? route('guests.update', $guest->id)
@@ -28,28 +28,28 @@
                 <label>Nama</label>
                 <input type="text" name="name"
                     value="{{ $guest->name ?? old('name') }}"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded-lg">
             </div>
 
             <div>
                 <label>Email</label>
                 <input type="email" name="email"
                     value="{{ $guest->email ?? old('email') }}"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded-lg">
             </div>
 
             <div>
                 <label>Telepon</label>
                 <input type="text" name="phone"
                     value="{{ $guest->phone ?? old('phone') }}"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded-lg">
             </div>
 
             <div>
-                <label>No Identitas</label>
+                <label>No.Identitas (KTP/Passport)</label>
                 <input type="text" name="id_number"
                     value="{{ $guest->id_number ?? old('id_number') }}"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded-lg">
             </div>
 
         </div>
@@ -57,7 +57,7 @@
         <div class="mt-4">
             <label>Alamat</label>
             <textarea name="address"
-                class="w-full border p-2 rounded">{{ $guest->address ?? old('address') }}</textarea>
+                class="w-full border border-gray-300 p-2 rounded-lg">{{ $guest->address ?? old('address') }}</textarea>
         </div>
 
         <div class="mt-6 flex gap-3">
@@ -66,7 +66,7 @@
             </button>
 
             <a href="{{ route('guests.index') }}"
-               class="bg-gray-300 px-4 py-2 rounded">
+               class="bg-gray-200 px-4 py-2 rounded">
                 Batal
             </a>
         </div>

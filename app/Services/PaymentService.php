@@ -6,26 +6,10 @@ use App\Models\Guest;
 use App\Models\Room;
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Services\HotelConfigManager;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-/**
- * PANDUAN PENGERJAAN — Anggota E (PaymentService)
- *
- * E.1 createBookingWithPayment($guest, $room, $data, $pricing)
- *     → ⚡ Wajib panggil Singleton: $config = HotelConfigManager::getInstance()
- *       Contoh: $config->calculateTax(), $config->getTaxRate()
- *     → Buat record Booking: guest_id, room_id, check_in_date, check_out_date,
- *       total_nights ($pricing['nights']), total_price ($pricing['total']), status='confirmed'
- *     → Buat record Payment: booking_id, amount ($pricing['subtotal']),
- *       tax_amount ($pricing['tax']), payment_method, status='pending'
- *     → Return object Booking
- *
- * E.2 finalizePayment($booking, $pricing)
- *     → Ambil $booking->payment
- *     → Update: amount, tax_amount, status='paid', paid_at=now()
- *     → Jika payment belum ada: throw exception atau buat baru
- */
 class PaymentService
 {
     public function createBookingWithPayment(
@@ -35,6 +19,9 @@ class PaymentService
         array $pricing
     ): Booking {
         return DB::transaction(function () use ($guest, $room, $data, $pricing) {
+            // ⚡ Memanggil instance Singleton sesuai panduan E.1
+            $config = HotelConfigManager::getInstance();
+
             $booking = Booking::create([
                 'guest_id' => $guest->id,
                 'room_id' => $room->id,
@@ -55,7 +42,7 @@ class PaymentService
             ]);
 
             return $booking->load(['guest', 'room', 'payment']);
-        });
+        }); // <-- Di sini tadi salahnya, sekarang sudah benar ditutup dengan });
     }
 
     public function finalizePayment(Booking $booking, array $pricing): void

@@ -10,11 +10,6 @@
     </div>
 
     {{-- Stats Cards --}}
-    {{--
-        TODO: Ganti angka static di bawah dengan variabel dari controller.
-        Variabel yang dibutuhkan: $totalRooms, $availableRooms, $totalGuests, $totalBookings
-        Contoh: ganti "8" dengan {{ $totalRooms }}
-    --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
             <div class="flex items-center gap-4">
@@ -26,8 +21,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Total Kamar</p>
-                    {{-- TODO: Ganti 8 → {{ $totalRooms }} --}}
-                    <p class="text-2xl font-bold text-gray-800">8</p>
+                    <p class="text-2xl font-bold text-gray-800">{{ $totalRooms }}</p>
                 </div>
             </div>
         </div>
@@ -42,8 +36,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Tersedia</p>
-                    {{-- TODO: Ganti 6 → {{ $availableRooms }} --}}
-                    <p class="text-2xl font-bold text-gray-800">6</p>
+                    <p class="text-2xl font-bold text-gray-800">{{ $availableRooms }}</p>
                 </div>
             </div>
         </div>
@@ -58,8 +51,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Total Tamu</p>
-                    {{-- TODO: Ganti 3 → {{ $totalGuests }} --}}
-                    <p class="text-2xl font-bold text-gray-800">3</p>
+                    <p class="text-2xl font-bold text-gray-800">{{ $totalGuests }}</p>
                 </div>
             </div>
         </div>
@@ -74,8 +66,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Total Booking</p>
-                    {{-- TODO: Ganti 2 → {{ $totalBookings }} --}}
-                    <p class="text-2xl font-bold text-gray-800">2</p>
+                    <p class="text-2xl font-bold text-gray-800">{{ $totalBookings }}</p>
                 </div>
             </div>
         </div>
@@ -99,30 +90,32 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    {{--
-                        TODO: Ganti baris static di bawah dengan @foreach($recentBookings as $booking)
-                        Variabel yang dibutuhkan dari controller: $recentBookings
-                    --}}
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3">1</td>
-                        <td class="px-6 py-3 font-medium text-gray-800">Budi Santoso</td>
-                        <td class="px-6 py-3">201</td>
-                        <td class="px-6 py-3">25/05/2026</td>
-                        <td class="px-6 py-3">27/05/2026</td>
-                        <td class="px-6 py-3">
-                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700">Confirmed</span>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3">2</td>
-                        <td class="px-6 py-3 font-medium text-gray-800">Siti Aminah</td>
-                        <td class="px-6 py-3">301</td>
-                        <td class="px-6 py-3">26/05/2026</td>
-                        <td class="px-6 py-3">30/05/2026</td>
-                        <td class="px-6 py-3">
-                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-emerald-100 text-emerald-700">Checked In</span>
-                        </td>
-                    </tr>
+                    @forelse ($recentBookings as $booking)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-3 text-gray-500">{{ $booking->id }}</td>
+                            <td class="px-6 py-3 font-medium text-gray-800">{{ $booking->guest->name ?? '-' }}</td>
+                            <td class="px-6 py-3">{{ $booking->room->room_number ?? '-' }}</td>
+                            <td class="px-6 py-3">{{ optional($booking->check_in_date)->format('d/m/Y') ?? '-' }}</td>
+                            <td class="px-6 py-3">{{ optional($booking->check_out_date)->format('d/m/Y') ?? '-' }}</td>
+                            <td class="px-6 py-3">
+                                @php
+                                    $statusMap = [
+                                        'pending' => ['label' => 'Pending', 'class' => 'bg-amber-100 text-amber-700'],
+                                        'confirmed' => ['label' => 'Confirmed', 'class' => 'bg-blue-100 text-blue-700'],
+                                        'checked_in' => ['label' => 'Checked In', 'class' => 'bg-emerald-100 text-emerald-700'],
+                                        'checked_out' => ['label' => 'Checked Out', 'class' => 'bg-gray-100 text-gray-700'],
+                                        'cancelled' => ['label' => 'Cancelled', 'class' => 'bg-red-100 text-red-700'],
+                                    ];
+                                    $status = $statusMap[$booking->status] ?? ['label' => ucfirst((string) $booking->status), 'class' => 'bg-gray-100 text-gray-700'];
+                                @endphp
+                                <span class="px-2 py-1 text-xs font-medium rounded-full {{ $status['class'] }}">{{ $status['label'] }}</span>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-6 py-4 text-center text-gray-500">Belum ada data booking terbaru.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

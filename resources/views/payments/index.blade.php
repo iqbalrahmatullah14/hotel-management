@@ -28,73 +28,51 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    {{-- TODO Tugas E: Ganti static rows dengan @foreach ($payments as $payment) --}}
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-gray-500">1</td>
-                        <td class="px-6 py-3">#1</td>
-                        <td class="px-6 py-3 font-medium text-gray-800">Budi Santoso</td>
-                        <td class="px-6 py-3">Rp 1.100.000</td>
-                        <td class="px-6 py-3">Rp 121.000</td>
-                        <td class="px-6 py-3">Cash</td>
-                        <td class="px-6 py-3">
-                            <span
-                                class="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-700">Pending</span>
-                        </td>
-                        <td class="px-6 py-3">
-                            <div class="flex items-center gap-2">
-                                {{-- TODO Tugas E: Ganti route('payments.show', 1) → route('payments.show', $payment) --}}
-                                <a href="{{ route('payments.show', 1) }}" class="text-blue-600 hover:text-blue-800 p-1"
-                                    title="Invoice / Detail">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </a>
-                                {{-- TODO Tugas E.6: Ganti openStatusModal(1, 'pending') → openStatusModal($payment->id, $payment->status) --}}
-                                <button onclick="openStatusModal(1, 'pending')"
-                                    class="text-indigo-600 hover:text-indigo-800 p-1" title="Ubah Status">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-gray-500">2</td>
-                        <td class="px-6 py-3">#2</td>
-                        <td class="px-6 py-3 font-medium text-gray-800">Siti Aminah</td>
-                        <td class="px-6 py-3">Rp 3.600.000</td>
-                        <td class="px-6 py-3">Rp 396.000</td>
-                        <td class="px-6 py-3">Transfer</td>
-                        <td class="px-6 py-3">
-                            <span
-                                class="px-2 py-1 text-xs font-medium rounded-full bg-emerald-100 text-emerald-700">Paid</span>
-                        </td>
-                        <td class="px-6 py-3">
-                            <div class="flex items-center gap-2">
-                                <a href="{{ route('payments.show', 2) }}" class="text-blue-600 hover:text-blue-800 p-1"
-                                    title="Invoice / Detail">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </a>
-                                <button onclick="openStatusModal(2, 'paid')"
-                                    class="text-indigo-600 hover:text-indigo-800 p-1" title="Ubah Status">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    @forelse ($payments as $payment)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-3 text-gray-500">{{ $loop->iteration }}</td>
+                            <td class="px-6 py-3">#{{ $payment->booking_id }}</td>
+                            <td class="px-6 py-3 font-medium text-gray-800">{{ $payment->booking->guest->name ?? '-' }}</td>
+                            <td class="px-6 py-3">Rp {{ number_format($payment->amount, 0, ',', '.') }}</td>
+                            <td class="px-6 py-3">Rp {{ number_format($payment->tax_amount, 0, ',', '.') }}</td>
+                            <td class="px-6 py-3">{{ ucfirst($payment->payment_method) }}</td>
+                            <td class="px-6 py-3">
+                                @php
+                                    $statusMap = [
+                                        'pending' => ['label' => 'Pending', 'class' => 'bg-amber-100 text-amber-700'],
+                                        'paid' => ['label' => 'Paid', 'class' => 'bg-emerald-100 text-emerald-700'],
+                                        'cancelled' => ['label' => 'Cancelled', 'class' => 'bg-red-100 text-red-700'],
+                                    ];
+                                    $status = $statusMap[$payment->status] ?? ['label' => ucfirst((string) $payment->status), 'class' => 'bg-gray-100 text-gray-700'];
+                                @endphp
+                                <span class="px-2 py-1 text-xs font-medium rounded-full {{ $status['class'] }}">{{ $status['label'] }}</span>
+                            </td>
+                            <td class="px-6 py-3">
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('payments.show', $payment->id) }}" class="text-blue-600 hover:text-blue-800 p-1"
+                                        title="Invoice / Detail">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </a>
+                                    <button onclick="openStatusModal({{ $payment->id }}, '{{ $payment->status }}')"
+                                        class="text-indigo-600 hover:text-indigo-800 p-1" title="Ubah Status">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="px-6 py-4 text-center text-gray-500">Belum ada data pembayaran.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

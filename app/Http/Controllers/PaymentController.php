@@ -67,6 +67,8 @@ class PaymentController extends Controller
 
         if ($request->status === 'paid') {
             $payment->update(['paid_at' => now()]);
+        } else {
+            $payment->update(['paid_at' => null]);
         }
 
         return redirect()->route('payments.index')->with('success', 'Status pembayaran berhasil diubah');

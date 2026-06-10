@@ -1,24 +1,11 @@
-{{-- ============================================
-     Tugas B.5 — Form Tambah/Edit Kamar
-     Anggota B: Ganti data static dengan data dari controller.
 
-     TODO Tugas B:
-     1. Di RoomController::create(), kirim $roomTypes dari config:
-        $roomTypes = config('hotel.room_types');
-        return view('rooms.form', compact('roomTypes'));
-     2. Di RoomController::edit(), kirim $room dan $roomTypes:
-        return view('rooms.form', compact('room', 'roomTypes'));
-     3. Ganti <option> static dengan @foreach ($roomTypes as $key => $type)
-     4. Ganti value="" dengan value="{{ $room->field ?? old('field') }}"
-     ============================================ --}}
 @extends('layouts.app')
 
 @section('title', 'Form Kamar')
 
 @section('content')
     <div class="mb-6">
-        {{-- TODO Tugas B: Ganti title berdasarkan mode edit/create
-             {{ isset($room) ? 'Edit Kamar' : 'Tambah Kamar Baru' }} --}}
+
         <h1 class="text-2xl font-bold text-gray-800">
             {{ isset($room) ? 'Edit Kamar' : 'Tambah Kamar Baru' }}
         </h1>
@@ -28,9 +15,7 @@
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-2xl">
-        {{-- TODO Tugas B: Ganti action berdasarkan mode edit/create
-             action="{{ isset($room) ? route('rooms.update', $room) : route('rooms.store') }}"
-             Dan tambahkan @if (isset($room)) @method('PUT') @endif --}}
+
         <form action="{{ isset($room) ? route('rooms.update', $room) : route('rooms.store') }}" method="POST">
             @csrf
 
@@ -41,7 +26,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Tipe Kamar</label>
-                    {{-- TODO Tugas B: Ganti <option> static dengan @foreach (config('hotel.room_types') as $key => $type) --}}
+
                     <select name="type" id="type" required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">-- Pilih Tipe --</option>

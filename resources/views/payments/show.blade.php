@@ -1,22 +1,11 @@
-{{-- Tugas E.5 — Invoice
-     ⚡ Data hotel dari SINGLETON: HotelConfigManager::getInstance()
-
-     TODO Tugas E:
-     1. Di PaymentController::show(), kirim variabel:
-        $config = HotelConfigManager::getInstance();
-        return view('payments.show', [
-            'payment'      => $payment,
-            'hotelName'    => $config->getHotelName(),
-            'hotelAddress' => $config->getHotelAddress(),
-            'taxRate'      => $config->getTaxRate(),
-        ]);
-     2. Ganti data static dengan variabel dari controller --}}
 @extends('layouts.app')
 @section('title', 'Invoice Pembayaran')
 @section('content')
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Invoice Pembayaran</h1>
-        <button onclick="window.print()" class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">🖨 Cetak</button>
+        <button onclick="window.print()"
+            class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">🖨
+            Cetak</button>
     </div>
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-3xl">
         <div class="flex justify-between items-start mb-8">
@@ -40,7 +29,8 @@
             </div>
             <div>
                 <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Detail Booking</p>
-                <p class="text-sm">Kamar: <strong>{{ $payment->booking->room->room_number ?? '-' }}</strong> ({{ ucfirst($payment->booking->room->type ?? '-') }})</p>
+                <p class="text-sm">Kamar: <strong>{{ $payment->booking->room->room_number ?? '-' }}</strong>
+                    ({{ ucfirst($payment->booking->room->type ?? '-') }})</p>
                 <p class="text-sm">Check-in: {{ optional($payment->booking->check_in_date)->format('d/m/Y') ?? '-' }}</p>
                 <p class="text-sm">Check-out: {{ optional($payment->booking->check_out_date)->format('d/m/Y') ?? '-' }}</p>
                 <p class="text-sm">{{ $payment->booking->total_nights }} malam</p>
@@ -66,7 +56,8 @@
             <tfoot>
                 <tr class="border-t-2 border-gray-300">
                     <td class="py-3 font-bold text-lg">Total</td>
-                    <td class="py-3 text-right font-bold text-lg text-indigo-600">Rp {{ number_format($payment->amount + $payment->tax_amount, 0, ',', '.') }}</td>
+                    <td class="py-3 text-right font-bold text-lg text-indigo-600">Rp
+                        {{ number_format($payment->amount + $payment->tax_amount, 0, ',', '.') }}</td>
                 </tr>
             </tfoot>
         </table>

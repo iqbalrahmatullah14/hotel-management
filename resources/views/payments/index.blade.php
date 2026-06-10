@@ -1,10 +1,3 @@
-{{-- Tugas E.7 — Payments Index
-     TODO Tugas E:
-     1. Di PaymentController::index(), kirim $payments:
-        $payments = Payment::with(['booking.guest'])->latest()->get();
-        return view('payments.index', compact('payments'));
-     2. Ganti baris static dengan @foreach ($payments as $payment)
-    --}}
 @extends('layouts.app')
 @section('title', 'Manajemen Pembayaran')
 @section('content')
@@ -43,14 +36,18 @@
                                         'paid' => ['label' => 'Paid', 'class' => 'bg-emerald-100 text-emerald-700'],
                                         'cancelled' => ['label' => 'Cancelled', 'class' => 'bg-red-100 text-red-700'],
                                     ];
-                                    $status = $statusMap[$payment->status] ?? ['label' => ucfirst((string) $payment->status), 'class' => 'bg-gray-100 text-gray-700'];
+                                    $status = $statusMap[$payment->status] ?? [
+                                        'label' => ucfirst((string) $payment->status),
+                                        'class' => 'bg-gray-100 text-gray-700',
+                                    ];
                                 @endphp
-                                <span class="px-2 py-1 text-xs font-medium rounded-full {{ $status['class'] }}">{{ $status['label'] }}</span>
+                                <span
+                                    class="px-2 py-1 text-xs font-medium rounded-full {{ $status['class'] }}">{{ $status['label'] }}</span>
                             </td>
                             <td class="px-6 py-3">
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('payments.show', $payment->id) }}" class="text-blue-600 hover:text-blue-800 p-1"
-                                        title="Invoice / Detail">
+                                    <a href="{{ route('payments.show', $payment->id) }}"
+                                        class="text-blue-600 hover:text-blue-800 p-1" title="Invoice / Detail">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

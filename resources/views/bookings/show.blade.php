@@ -1,14 +1,3 @@
-{{-- Tugas D.4 — Booking Detail + Aksi
-     ⚡ Cancel → BookingFacade::cancelBooking() [Tugas A]
-     ⚡ Check-in → BookingFacade::processCheckIn() [Tugas A]
-     ⚡ Check-out → BookingFacade::processCheckOut() [Tugas A]
-
-     TODO Tugas D:
-     1. Di BookingController::show(), kirim $booking:
-        $booking->load(['guest', 'room.roomType', 'payment']);
-        return view('bookings.show', compact('booking'));
-     2. Ganti data static dengan {{ $booking->guest->name }}, dll.
-     3. Ganti action="#" dengan route('bookings.checkin', $booking), dll. --}}
 @extends('layouts.app')
 @section('title', 'Detail Booking #' . $booking->id)
 @section('content')
@@ -28,15 +17,18 @@
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mb-1">Kamar</p>
-                    <p class="font-semibold text-gray-800">{{ $booking->room->room_number ?? '-' }} — {{ $booking->room->room_type_config['name'] ?? '-' }}</p>
+                    <p class="font-semibold text-gray-800">{{ $booking->room->room_number ?? '-' }} —
+                        {{ $booking->room->room_type_config['name'] ?? '-' }}</p>
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mb-1">Check-in</p>
-                    <p class="font-semibold text-gray-800">{{ optional($booking->check_in_date)->format('d/m/Y') ?? '-' }}</p>
+                    <p class="font-semibold text-gray-800">{{ optional($booking->check_in_date)->format('d/m/Y') ?? '-' }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mb-1">Check-out</p>
-                    <p class="font-semibold text-gray-800">{{ optional($booking->check_out_date)->format('d/m/Y') ?? '-' }}</p>
+                    <p class="font-semibold text-gray-800">{{ optional($booking->check_out_date)->format('d/m/Y') ?? '-' }}
+                    </p>
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mb-1">Jumlah Malam</p>
@@ -44,7 +36,8 @@
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mb-1">Total Harga</p>
-                    <p class="font-semibold text-gray-800">Rp {{ number_format((float) $booking->total_price, 0, ',', '.') }}</p>
+                    <p class="font-semibold text-gray-800">Rp
+                        {{ number_format((float) $booking->total_price, 0, ',', '.') }}</p>
                 </div>
                 <div>
                     <p class="text-xs text-gray-500 mb-1">Status</p>
@@ -56,9 +49,13 @@
                             'checked_out' => ['label' => 'Checked Out', 'class' => 'bg-gray-100 text-gray-700'],
                             'cancelled' => ['label' => 'Cancelled', 'class' => 'bg-red-100 text-red-700'],
                         ];
-                        $status = $statusMap[$booking->status] ?? ['label' => ucfirst((string) $booking->status), 'class' => 'bg-gray-100 text-gray-700'];
+                        $status = $statusMap[$booking->status] ?? [
+                            'label' => ucfirst((string) $booking->status),
+                            'class' => 'bg-gray-100 text-gray-700',
+                        ];
                     @endphp
-                    <span class="px-2 py-1 text-xs font-medium rounded-full {{ $status['class'] }}">{{ $status['label'] }}</span>
+                    <span
+                        class="px-2 py-1 text-xs font-medium rounded-full {{ $status['class'] }}">{{ $status['label'] }}</span>
                 </div>
             </div>
         </div>

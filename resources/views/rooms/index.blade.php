@@ -1,17 +1,4 @@
-{{-- ============================================
-     Tugas B.10 — Rooms Index (List Kamar)
-     Anggota B: Ganti data static dengan data dari controller.
 
-     TODO Tugas B:
-     1. Di RoomController::index(), kirim variabel $rooms:
-        $rooms = Room::all();
-        return view('rooms.index', compact('rooms'));
-     Catatan: tipe kamar diakses via $room->roomTypeConfig (dari config/hotel.php)
-     2. Ganti baris <tr> static di bawah dengan:
-        @foreach ($rooms as $room)
-            <tr>...</tr>
-        @endforeach
-     ============================================ --}}
 @extends('layouts.app')
 
 @section('title', 'Manajemen Kamar')
@@ -46,14 +33,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    {{--
-                        TODO Tugas B: Ganti baris static di bawah dengan:
-                        @foreach ($rooms as $room)
-                        Lalu gunakan:
-                          {{ $room->room_number }}
-                          {{ $room->roomTypeConfig['name'] }}
-                          Rp {{ number_format($room->roomTypeConfig['price_per_night'], 0, ',', '.') }}
-                    --}}
+
                     @forelse ($rooms as $room)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-3 font-semibold text-gray-800">{{ $room->room_number }}</td>
@@ -65,16 +45,15 @@
                             <td class="px-6 py-3">
                                 <span
                                     class="px-2 py-1 text-xs font-medium rounded-full
-                                    @if($room->status == 'available') bg-emerald-100 text-emerald-700
+                                    @if ($room->status == 'available') bg-emerald-100 text-emerald-700
                                     @elseif($room->status == 'occupied') bg-rose-100 text-rose-700
-                                    @else bg-amber-100 text-amber-700
-                                    @endif">
+                                    @else bg-amber-100 text-amber-700 @endif">
                                     {{ ucfirst($room->status) }}
                                 </span>
                             </td>
                             <td class="px-6 py-3">
                                 <div class="flex gap-2">
-                                    {{-- TODO Tugas B: Ganti route('rooms.edit', 1) → route('rooms.edit', $room) --}}
+
                                     <a href="{{ route('rooms.edit', $room) }}"
                                         class="text-amber-600 hover:text-amber-800 p-1" title="Edit">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,7 +61,7 @@
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </a>
-                                    {{-- TODO Tugas B: Implementasi delete via form @method('DELETE') --}}
+
                                     <button onclick="openDeleteModal('delete-room-{{ $room->id }}')"
                                         class="text-red-600 hover:text-red-800 p-1 cursor-pointer" title="Hapus">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
